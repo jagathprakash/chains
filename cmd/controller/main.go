@@ -14,8 +14,6 @@ limitations under the License.
 package main
 
 import (
-	"flag"
-
 	"github.com/tektoncd/chains/pkg/reconciler/pipelinerun"
 	"github.com/tektoncd/chains/pkg/reconciler/taskrun"
 	"knative.dev/pkg/injection"
@@ -35,11 +33,12 @@ import (
 	_ "github.com/sigstore/sigstore/pkg/signature/kms/hashivault"
 )
 
-var namespace = flag.String("namespace", "", "Namespace to restrict informer to. Optional, defaults to all namespaces.")
+// var namespace = flag.String("namespace", "", "Namespace to restrict informer to. Optional, defaults to all namespaces.")
+var namespace = ""
 
 func main() {
-	flag.Parse()
-	ctx := injection.WithNamespaceScope(signals.NewContext(), *namespace)
+	// flag.Parse()
+	ctx := injection.WithNamespaceScope(signals.NewContext(), namespace)
 
 	sharedmain.MainWithContext(ctx, "watcher", taskrun.NewController, pipelinerun.NewController)
 }
